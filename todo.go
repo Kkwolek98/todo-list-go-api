@@ -78,7 +78,24 @@ func createTodo(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateTodo(w http.ResponseWriter, r *http.Request) {
+	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		fmt.Println(err.Error())
+		panic("Failed to connecto to DB")
+	}
+	
+	id := mux.Vars(r)["id"]
 
+	var todo Todo
+	db.Where("id = ?", id).Find(&todo)
+	err := json.NewDecoder(r.Body).Decode(&todo)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+	}
+	db.Save(&todo)
+
+	json.NewEncoder(w).Encode(todo)
 }
 
 func deleteTodo(w http.ResponseWriter, r *http.Request) {
