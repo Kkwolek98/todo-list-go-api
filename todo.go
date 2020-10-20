@@ -85,6 +85,21 @@ func deleteTodo(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func markTodoAsDone(w http.ResponseWriter, r *http.Request) {
+func toggleTodoDone(w http.ResponseWriter, r *http.Request) {
+	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		fmt.Println(err.Error())
+		panic("Failed to connecto to DB")
+	}
 	
+	id := mux.Vars(r)["id"]
+
+	var todo Todo
+	db.Where("id = ?", id).Find(&todo)
+
+	todo.IsDone = !todo.IsDone
+
+	db.Save(&todo)
+
+	json.NewEncoder(w).Encode(todo)
 }

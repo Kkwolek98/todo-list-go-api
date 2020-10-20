@@ -40,6 +40,7 @@ func main() {
 	router.HandleFunc("/api/todo/{id}", getTodo).Methods("GET")
 	router.HandleFunc("/api/todo", createTodo).Methods("POST")
 	router.HandleFunc("/api/todo/{id}", updateTodo).Methods("PUT")
+	router.HandleFunc("/api/todo/toggle_done/{id}", toggleTodoDone).Methods("PUT")
 	router.HandleFunc("/api/todo/{id}", updateTodo).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":8000", router))
