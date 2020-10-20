@@ -31,26 +31,14 @@ func initialMigration() {
 	db.AutoMigrate(&Todo{})
 }
 
-//Functions
-func getTodos(w http.ResponseWriter, r *http.Request) {
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		fmt.Println(err.Error())
-		panic("Failed to connecto to DB")
-	}
-
+// Endpoint Functions
+func getTodos(w http.ResponseWriter, r *http.Request) { //GET /api/todos
 	var todos []Todo
 	db.Find(&todos)
 	json.NewEncoder(w).Encode(todos)
 }
 
-func getTodo(w http.ResponseWriter, r *http.Request) {
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		fmt.Println(err.Error())
-		panic("Failed to connecto to DB")
-	}
-
+func getTodo(w http.ResponseWriter, r *http.Request) { //GET /api/todo/{id}
 	id := mux.Vars(r)["id"]
 
 	var todo Todo
@@ -59,13 +47,7 @@ func getTodo(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&todo)
 }
 
-func createTodo(w http.ResponseWriter, r *http.Request) {
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		fmt.Println(err.Error())
-		panic("Failed to connecto to DB")
-	}
-	
+func createTodo(w http.ResponseWriter, r *http.Request) { //POST /api/todo
 	var todo Todo
 	err := json.NewDecoder(r.Body).Decode(&todo)
     if err != nil {
@@ -78,13 +60,7 @@ func createTodo(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(todo)
 }
 
-func updateTodo(w http.ResponseWriter, r *http.Request) {
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		fmt.Println(err.Error())
-		panic("Failed to connecto to DB")
-	}
-	
+func updateTodo(w http.ResponseWriter, r *http.Request) { //PUT /api/todo/{id}
 	id := mux.Vars(r)["id"]
 
 	var todo Todo
@@ -99,13 +75,7 @@ func updateTodo(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(todo)
 }
 
-func deleteTodo(w http.ResponseWriter, r *http.Request) {
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		fmt.Println(err.Error())
-		panic("Failed to connecto to DB")
-	}
-	
+func deleteTodo(w http.ResponseWriter, r *http.Request) { //DELETE /api/todo/{id}
 	id := mux.Vars(r)["id"]
 
 	var todo Todo
@@ -115,13 +85,7 @@ func deleteTodo(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(todo)
 }
 
-func toggleTodoDone(w http.ResponseWriter, r *http.Request) {
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		fmt.Println(err.Error())
-		panic("Failed to connecto to DB")
-	}
-	
+func toggleTodoDone(w http.ResponseWriter, r *http.Request) { //PUT /api/todo/toggle_done/{id}
 	id := mux.Vars(r)["id"]
 
 	var todo Todo
