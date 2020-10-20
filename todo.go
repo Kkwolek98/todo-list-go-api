@@ -13,6 +13,7 @@ var db *gorm.DB
 var err error
 var dsn = "user=postgres password=admin dbname=todo port=5432 sslmode=disable"
 
+// Todo type
 type Todo struct {
 	gorm.Model
 	Title 			string 	`json:"title"`

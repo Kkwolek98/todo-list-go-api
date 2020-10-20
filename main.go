@@ -1,21 +1,10 @@
 package main
 
-import(
-	// "fmt"
+import (
 	"log"
 	"net/http"
-	// "math/rand"
 	"github.com/gorilla/mux"
 )
-
-//User struct
-type User struct {
-	DisplayName		string `json:"displayName"`
-	Username 		string `json:"username"`
-	Password		string `json:"password"`
-}
-
-
 
 //Middleware
 func contentTypeMiddleware(next http.Handler) http.Handler {
